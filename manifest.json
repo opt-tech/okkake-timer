@@ -12,7 +12,7 @@
   "page_action": {
       "default_title": "Start Timer",
       "default_icon": "icon.png",
-      "default_popup": "popup.html"
+      "default_popup": "start_timer.html"
   },
   "content_scripts": [
     {
