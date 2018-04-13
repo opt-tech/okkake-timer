@@ -15,7 +15,6 @@ class Indicator {
     div.style.bottom = "0";
     div.style.width = this.size + "px";
     div.style.height = this.size + "px";
-    div.style.backgroundColor = "black";
     div.style.transform = "translateX(-100%)";
     return div;
   }
@@ -38,7 +37,7 @@ class TimeIndicator extends Indicator {
   }
   createElement() {
     var div = super.createElement();
-    div.style.backgroundColor = "blue";
+    div.style.backgroundImage = "url(" + chrome.extension.getURL("images/mouse.png") + ")";
     div.style.opacity = "0.5";
     return div;
   }
@@ -56,7 +55,7 @@ class QiitaProgressIndicator extends Indicator {
   }
   createElement() {
     var div = super.createElement();
-    div.style.backgroundColor = "red";
+    div.style.backgroundImage = "url(" + chrome.extension.getURL("images/cat.png") + ")";
     div.style.opacity = "0.5";
     return div;
   }

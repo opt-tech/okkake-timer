@@ -11,7 +11,7 @@
   },
   "page_action": {
       "default_title": "Start Timer",
-      "default_icon": "icon.png",
+      "default_icon": "images/cat.png",
       "default_popup": "start_timer.html"
   },
   "content_scripts": [
@@ -20,6 +20,9 @@
       "css": ["style.css"],
       "js": ["timer.js"]
     }
+  ],
+  "web_accessible_resources": [
+    "images/*"
   ],
   "manifest_version": 2
 }
