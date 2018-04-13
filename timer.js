@@ -1,3 +1,5 @@
+'use strict';
+
 class Indicator {
   constructor(parent) {
     this.size = 30;
@@ -37,9 +39,12 @@ class TimeIndicator extends Indicator {
   }
 }
 
-var plannedSeconds = 30;
-var slides = document.querySelectorAll(".slide");
-slides.forEach(function(slide) {
-  new TimeIndicator(slide.children[0], 0, plannedSeconds);
-});
-
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.allottedSecond) {
+      var slides = document.querySelectorAll(".slide");
+      slides.forEach(function(slide) {
+        new TimeIndicator(slide.children[0], 0, request.allottedSecond);
+      });
+    }
+  });
