@@ -1,0 +1,18 @@
+{
+  "name": "Rabbity Timer",
+  "description": "Shows presentation timer on the slide",
+  "version": "1.0",
+  "page_action": {
+      "default_title": "Start Timer",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://qiita.com/*", "*://*.esa.io/*"],
+      "css": ["style.css"],
+      "js": ["timer.js"]
+    }
+  ],
+  "manifest_version": 2
+}
