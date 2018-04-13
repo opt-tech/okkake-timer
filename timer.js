@@ -34,6 +34,8 @@ class Indicator {
 class TimeIndicator extends Indicator {
   constructor(parent, current, duration) {
     super(parent);
+    this.working = true;//fixme: dirty design
+    this.accumulation = 0;//fixme: dirty design
     this.start = new Date().getTime() / 1000;
     this.current = current;
     this.duration = duration;
@@ -46,8 +48,23 @@ class TimeIndicator extends Indicator {
   }
   timerHandler() {
     var now = new Date().getTime() / 1000;
-    this.current = now - this.start;
-    this.move(this.current * 100.0 / this.duration);
+    if(this.working){
+      this.current = this.accumulation + now - this.start;
+      this.move(this.current * 100.0 / this.duration);
+    }
+  }
+  stop() {
+    var now = new Date().getTime() / 1000;
+    if(this.working) {
+      this.accumulation = this.accumulation + now - this.start;
+    }
+    this.working = false;
+  }
+
+  resume() {
+    var now = new Date().getTime() / 1000;
+    this.start = now;
+    this.working = true;
   }
 }
 
@@ -72,20 +89,36 @@ class QiitaProgressIndicator extends Indicator {
 var timeIndicator;
 var progressIndicator;
 
+function setupIndicators(allottedSecond) {
+  if(timeIndicator) {
+    timeIndicator.removeElement();
+  }
+  if(progressIndicator) {
+    progressIndicator.removeElement();
+  }
+
+  var slides = document.querySelectorAll(".slide");
+  slides.forEach(function(slide) {
+    timeIndicator = new TimeIndicator(slide.children[0], 0, allottedSecond);
+    progressIndicator = new QiitaProgressIndicator(slide);
+  });
+}
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.allottedSecond) {
-      if(timeIndicator) {
-        timeIndicator.removeElement();
+      setupIndicators(request.allottedSecond)
+    }
+    if (request.command) {
+      switch(request.command) {
+        case "stop":
+          timeIndicator.stop();
+          break;
+        case "resume":
+          timeIndicator.resume();
+          break;
+        default:
+          break;
       }
-      if(progressIndicator) {
-        progressIndicator.removeElement();
-      }
-
-      var slides = document.querySelectorAll(".slide");
-      slides.forEach(function(slide) {
-        timeIndicator = new TimeIndicator(slide.children[0], 0, request.allottedSecond);
-        progressIndicator = new QiitaProgressIndicator(slide);
-      });
     }
   });
