@@ -26,6 +26,9 @@ class Indicator {
   timerHandler() {
     // abstract
   }
+  removeElement() {//fixme: There must be more appropriate name.
+    this.parent.removeChild(this.element);
+  }
 }
 
 class TimeIndicator extends Indicator {
@@ -66,13 +69,23 @@ class QiitaProgressIndicator extends Indicator {
   }
 }
 
+var timeIndicator;
+var progressIndicator;
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.allottedSecond) {
+      if(timeIndicator) {
+        timeIndicator.removeElement();
+      }
+      if(progressIndicator) {
+        progressIndicator.removeElement();
+      }
+
       var slides = document.querySelectorAll(".slide");
       slides.forEach(function(slide) {
-        new TimeIndicator(slide.children[0], 0, request.allottedSecond);
-        new QiitaProgressIndicator(slide);
+        timeIndicator = new TimeIndicator(slide.children[0], 0, request.allottedSecond);
+        progressIndicator = new QiitaProgressIndicator(slide);
       });
     }
   });
