@@ -2,6 +2,13 @@
   "name": "Rabbity Timer",
   "description": "Shows presentation timer on the slide",
   "version": "1.0",
+  "permissions": [
+    "activeTab", "declarativeContent"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "page_action": {
       "default_title": "Start Timer",
       "default_icon": "icon.png",
