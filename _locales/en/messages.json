@@ -1,0 +1,10 @@
+{
+  "title" : {
+    "message": "Presentation Pacemaker",
+    "description": "The name of this extension"
+  },
+  "description" : {
+    "message": "Shows a presentation pace-keeping timer on the Qiita slides",
+    "description": "The description of this extension"
+  }
+}

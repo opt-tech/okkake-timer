@@ -5,7 +5,7 @@
 'use strict';
 
 function toSecond(allottedTime) {
-  return allottedTime;//todo
+  return allottedTime * 60;//todo
 }
 
 function onStartButtonClick(e) {

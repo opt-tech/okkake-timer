@@ -1,0 +1,10 @@
+{
+  "title" : {
+    "message": "おっかけプレゼンタイマー",
+    "description": "The name of this extension"
+  },
+  "description" : {
+    "message": "Qiitaスライド上にプレゼンテーションの進行状況がひと目でわかるタイマーを表示します。",
+    "description": "The description of this extension"
+  }
+}
