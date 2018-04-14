@@ -5,28 +5,30 @@ class Indicator {
     this.parent = parent;
     this.size = 50;
     this.element = this.createElement();
-    this.move(10);
+    this.move(0);
     setInterval(this.timerHandler.bind(this), 100);
+    parent.style.position = "relative";
     parent.appendChild(this.element);
   }
   createElement() {
     var div = document.createElement("div");
     div.style.position = "absolute";
-    div.style.bottom = "0";
+    div.style.top = "0px";
     div.style.width = this.size + "px";
     div.style.height = this.size + "px";
-    div.style.transform = "translateX(-100%)";
+    div.style.transform = "translateY(-100%)";
     return div;
   }
   move(percentile) {
     if (percentile < 0) percentile = 0;
     if (100 < percentile) percentile = 100;
     this.element.style.left = percentile + "%";
+    this.element.style.transform = "translateX(-" + percentile + "%) translateY(-100%)";
   }
   timerHandler() {
     // abstract
   }
-  removeElement() {//fixme: There must be more appropriate name.
+  removeElement() {
     this.parent.removeChild(this.element);
   }
 }
@@ -69,10 +71,6 @@ class TimeIndicator extends Indicator {
 }
 
 class QiitaProgressIndicator extends Indicator {
-  constructor(slide) {
-    super(slide.children[0]);
-    this.slide = slide;
-  }
   createElement() {
     var div = super.createElement();
     div.style.backgroundImage = "url(" + chrome.extension.getURL("images/cat.png") + ")";
@@ -80,9 +78,9 @@ class QiitaProgressIndicator extends Indicator {
     return div;
   }
   timerHandler() {
-    var pageCount = this.slide.querySelector(".slide_controller_pageCount");
+    var pageCount = this.parent.querySelector(".slide_controller_pageCount");
     var [current, total] = pageCount.textContent.split('/');
-    this.move(current * 100.0 / total);
+    this.move((current - 1) * 100.0 / (total - 1));
   }
 }
 
@@ -92,10 +90,10 @@ class IndicationController {
   }
 
   setupIndicators(allottedSecond) {
-    var slides = document.querySelectorAll(".slide");
+    var slides = document.querySelectorAll(".slide .slide_controller");
     this.resetIndicators();
     slides.forEach(function(slide) {
-      this.timeIndicator = new TimeIndicator(slide.children[0], 0, allottedSecond);
+      this.timeIndicator = new TimeIndicator(slide, 0, allottedSecond);
       this.progressIndicator = new QiitaProgressIndicator(slide);
     }.bind(this));
   }
