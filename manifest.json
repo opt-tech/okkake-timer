@@ -12,9 +12,9 @@
     "persistent": false
   },
   "page_action": {
-      "default_title": "Start Timer",
+      "default_title": "Rabbity Timer",
       "default_icon": "images/cat.png",
-      "default_popup": "start_timer.html"
+      "default_popup": "popup.html"
   },
   "content_scripts": [
     {
