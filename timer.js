@@ -53,7 +53,7 @@ class TimeIndicator extends Indicator {
       this.move(this.current * 100.0 / this.duration);
     }
   }
-  stop() {
+  pause() {
     var now = new Date().getTime() / 1000;
     if(this.working) {
       this.accumulation = this.accumulation + now - this.start;
@@ -86,39 +86,61 @@ class QiitaProgressIndicator extends Indicator {
   }
 }
 
-var timeIndicator;
-var progressIndicator;
-
-function setupIndicators(allottedSecond) {
-  if(timeIndicator) {
-    timeIndicator.removeElement();
-  }
-  if(progressIndicator) {
-    progressIndicator.removeElement();
+class IndicationController {
+  constructor () {
+    chrome.runtime.onMessage.addListener(this.onMessage.bind(this));
   }
 
-  var slides = document.querySelectorAll(".slide");
-  slides.forEach(function(slide) {
-    timeIndicator = new TimeIndicator(slide.children[0], 0, allottedSecond);
-    progressIndicator = new QiitaProgressIndicator(slide);
-  });
+  setupIndicators(allottedSecond) {
+    var slides = document.querySelectorAll(".slide");
+    this.resetIndicators();
+    slides.forEach(function(slide) {
+      this.timeIndicator = new TimeIndicator(slide.children[0], 0, allottedSecond);
+      this.progressIndicator = new QiitaProgressIndicator(slide);
+    }.bind(this));
+  }
+
+  resetIndicators() {
+    if(this.timeIndicator) {
+      this.timeIndicator.removeElement();
+      this.timeIndicator = null;
+    }
+    if(this.progressIndicator) {
+      this.progressIndicator.removeElement();
+      this.progressIndicator = null;
+    }
+  }
+
+  onMessage(request, sender, sendResponse) {
+    switch(request.command) {
+      case "start":
+        this.allottedTime = request.allottedTime;
+        this.setupIndicators(this.toSecond(request.allottedTime))
+        break;
+      case "pause":
+        this.paused = true;
+        this.timeIndicator.pause();
+        break;
+      case "resume":
+        this.paused = false;
+        this.timeIndicator.resume();
+        break;
+      case "reset":
+        this.allottedTime = null;
+        this.paused = false;
+        this.resetIndicators();
+        break;
+      case "status":
+        sendResponse({"allottedTime": this.allottedTime, "paused": this.paused});
+        break;
+      default:
+        break;
+    }
+  }
+
+  toSecond(allottedTime) {
+    return allottedTime * 60;
+  }
 }
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.allottedSecond) {
-      setupIndicators(request.allottedSecond)
-    }
-    if (request.command) {
-      switch(request.command) {
-        case "stop":
-          timeIndicator.stop();
-          break;
-        case "resume":
-          timeIndicator.resume();
-          break;
-        default:
-          break;
-      }
-    }
-  });
+new IndicationController();

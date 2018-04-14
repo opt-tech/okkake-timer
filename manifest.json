@@ -6,13 +6,13 @@
     "declarativeContent"
   ],
   "default_locale": "en",
-  "icons": { "128": "images/cat.png" },
+  "icons": { "128": "images/cat2x.png" },
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
   "page_action": {
-      "default_title": "Rabbity Timer",
+      "default_title": "__MSG_title__",
       "default_icon": "images/cat.png",
       "default_popup": "popup.html"
   },

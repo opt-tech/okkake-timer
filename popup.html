@@ -1,22 +1,21 @@
 <!doctype html>
 <html>
   <head>
-    <title>Presentation Pacemaker</title>
+    <title>__MSG_title__</title>
   </head>
-  <script src="start_timer.js"></script>
-  <script src="stop_timer.js"></script>
-  <script src="resume_timer.js"></script>
+  <script src="popup.js"></script>
   <style>
-    p { width: 120px; }
+    p { width: 150px; }
   </style>
   <body>
-    <p>
-      <input type="text" id="allotted-time" size="3" />min
+    <p id="idle-area">
+      <input type="text" id="allotted-time-input" size="5" />min
       <input type="button" id="start-presentation" value="start"/>
     </p>
-    <p>
-      <input type="button" id="stop-presentation" value="stop"/>
-      <input type="button" id="resume-presentation" value="resume"/>
+    <p id="running-area" style="display: none">
+      <span id="allotted-time-text"></span>min
+      <input type="button" id="pause-resume-presentation" value="pause"/>
+      <input type="button" id="reset-presentation" value="reset"/>
     </p>
   </body>
 </html>
