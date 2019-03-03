@@ -18,7 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://qiita.com/*"],
+      "matches": ["*://qiita.com/*", "*://docs.google.com/presentation/*"],
       "js": ["timer.js"]
     }
   ],

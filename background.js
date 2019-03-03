@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(function() {
           pageUrl: { hostContains: 'qiita.com' },
         }),
         new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: { hostContains: '.esa.io' },
+          pageUrl: { urlContains: '//docs.google.com/presentation/' },
         })
       ],
       actions: [ new chrome.declarativeContent.ShowPageAction() ]
