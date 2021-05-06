@@ -135,18 +135,18 @@ class Slide {
 class QiitaSlide extends Slide {
   constructor() {
     super();
-    const root = document.querySelector(".slide");
+    const root = document.querySelector(".slideMode");
     if(!root)
       return;
-    this.slideElement = root.querySelector(".slide_preview");
-    this.controlElement = root.querySelector(".slide_controller_pageCount");
+    this.slideElement = root.querySelector(".slideMode-Dashboard");
+    this.controlElement = root.querySelector(".slideMode-Dashboard_pageCount");
   }
   currentProgress() {
     var [current, total] = this.controlElement.textContent.split('/');
     return [current, total];
   }
   placeIndicator(element) {
-    element.style.bottom = "0px";
+    element.style.bottom = "100%";
   }
 }
 
