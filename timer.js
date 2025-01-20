@@ -40,7 +40,7 @@ class TimeIndicator extends Indicator {
   }
   createElement() {
     var div = super.createElement();
-    div.style.backgroundImage = "url(" + chrome.extension.getURL("images/mouse.png") + ")";
+    div.style.backgroundImage = "url(" + chrome.runtime.getURL("images/mouse.png") + ")";
     div.style.opacity = "0.5";
     return div;
   }
@@ -68,7 +68,7 @@ class TimeIndicator extends Indicator {
 class ProgressIndicator extends Indicator {
   createElement() {
     var div = super.createElement();
-    div.style.backgroundImage = "url(" + chrome.extension.getURL("images/cat.png") + ")";
+    div.style.backgroundImage = "url(" + chrome.runtime.getURL("images/cat.png") + ")";
     div.style.opacity = "0.5";
     return div;
   }
@@ -213,6 +213,7 @@ class IndicationController {
       default:
         break;
     }
+    return true;
   }
 }
 

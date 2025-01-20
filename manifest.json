@@ -8,10 +8,9 @@
   "default_locale": "en",
   "icons": { "128": "images/cat2x.png" },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
-  "page_action": {
+  "action": {
       "default_title": "__MSG_title__",
       "default_icon": "images/cat.png",
       "default_popup": "popup.html"
@@ -23,7 +22,14 @@
     }
   ],
   "web_accessible_resources": [
-    "images/*"
+    {
+      "resources": [
+        "images/*"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
   ],
-  "manifest_version": 2
+  "manifest_version": 3
 }
