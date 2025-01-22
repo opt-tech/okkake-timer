@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class Indicator {
   constructor(slide) {
@@ -32,28 +32,29 @@ class Indicator {
 class TimeIndicator extends Indicator {
   constructor(slide, current, duration) {
     super(slide);
-    this.working = true;//fixme: dirty design
-    this.accumulation = 0;//fixme: dirty design
+    this.working = true; //fixme: dirty design
+    this.accumulation = 0; //fixme: dirty design
     this.start = new Date().getTime() / 1000;
     this.current = current;
     this.duration = duration;
   }
   createElement() {
     var div = super.createElement();
-    div.style.backgroundImage = "url(" + chrome.runtime.getURL("images/mouse.png") + ")";
+    div.style.backgroundImage =
+      "url(" + chrome.runtime.getURL("images/buri.png") + ")";
     div.style.opacity = "0.5";
     return div;
   }
   timerHandler() {
     var now = new Date().getTime() / 1000;
-    if(this.working){
+    if (this.working) {
       this.current = this.accumulation + now - this.start;
-      this.move(this.current * 100.0 / this.duration);
+      this.move((this.current * 100.0) / this.duration);
     }
   }
   pause() {
     var now = new Date().getTime() / 1000;
-    if(this.working) {
+    if (this.working) {
       this.accumulation = this.accumulation + now - this.start;
     }
     this.working = false;
@@ -68,19 +69,19 @@ class TimeIndicator extends Indicator {
 class ProgressIndicator extends Indicator {
   createElement() {
     var div = super.createElement();
-    div.style.backgroundImage = "url(" + chrome.runtime.getURL("images/cat.png") + ")";
+    div.style.backgroundImage =
+      "url(" + chrome.runtime.getURL("images/mure.png") + ")";
     div.style.opacity = "0.5";
     return div;
   }
   timerHandler() {
     var [current, total] = this.slide.currentProgress();
-    this.move((current - 1) * 100.0 / (total - 1));
+    this.move(((current - 1) * 100.0) / (total - 1));
   }
 }
 
 class Slide {
-  constructor() {
-  }
+  constructor() {}
   start(allottedTime) {
     this.reset();
     this.allottedSecond = allottedTime * 60;
@@ -89,36 +90,36 @@ class Slide {
     this.show();
   }
   show() {
-    if(!this.slideElement)
-      return;
+    if (!this.slideElement) return;
     this.slideElement.style.position = "relative";
-    if(this.timeIndicator && !this.timeIndicator.appendedTo(this.slideElement))
+    if (this.timeIndicator && !this.timeIndicator.appendedTo(this.slideElement))
       this.append(this.timeIndicator);
-    if(this.progressIndicator && !this.progressIndicator.appendedTo(this.slideElement))
+    if (
+      this.progressIndicator &&
+      !this.progressIndicator.appendedTo(this.slideElement)
+    )
       this.append(this.progressIndicator);
   }
   pause() {
-    if(this.timeIndicator)
-      this.timeIndicator.pause();
+    if (this.timeIndicator) this.timeIndicator.pause();
   }
   resume() {
-    if(this.timeIndicator)
-      this.timeIndicator.resume();
+    if (this.timeIndicator) this.timeIndicator.resume();
   }
   reset() {
     this.paused = false;
     this.allottedSecond = null;
-    if(this.timeIndicator) {
+    if (this.timeIndicator) {
       this.slideElement.removeChild(this.timeIndicator.element);
       this.timeIndicator = null;
     }
-    if(this.progressIndicator) {
+    if (this.progressIndicator) {
       this.slideElement.removeChild(this.progressIndicator.element);
       this.progressIndicator = null;
     }
   }
   status() {
-    return {"allottedTime": this.allottedSecond / 60, "paused": this.paused};
+    return { allottedTime: this.allottedSecond / 60, paused: this.paused };
   }
   currentProgress() {
     // abstract
@@ -136,13 +137,12 @@ class QiitaSlide extends Slide {
   constructor() {
     super();
     const root = document.querySelector(".slideMode");
-    if(!root)
-      return;
+    if (!root) return;
     this.slideElement = root.querySelector(".slideMode-Dashboard");
     this.controlElement = root.querySelector(".slideMode-Dashboard_pageCount");
   }
   currentProgress() {
-    var [current, total] = this.controlElement.textContent.split('/');
+    var [current, total] = this.controlElement.textContent.split("/");
     return [current, total];
   }
   placeIndicator(element) {
@@ -153,21 +153,27 @@ class QiitaSlide extends Slide {
 class GoogleSlide extends Slide {
   constructor() {
     super();
-    setInterval(function(){
-      var iframe = document.querySelector("iframe.punch-present-iframe");
-      if(!iframe)
-        return;
-      this.slideElement = iframe.contentDocument.querySelector(".punch-viewer-content")
-      this.controlElement = iframe.contentDocument.querySelector(".punch-viewer-loadstatus ~ div [aria-posinset]")
-      this.show();
-    }.bind(this), 500);
+    setInterval(
+      function () {
+        var iframe = document.querySelector("iframe.punch-present-iframe");
+        if (!iframe) return;
+        this.slideElement = iframe.contentDocument.querySelector(
+          ".punch-viewer-content"
+        );
+        this.controlElement = iframe.contentDocument.querySelector(
+          ".punch-viewer-loadstatus ~ div [aria-posinset]"
+        );
+        this.show();
+      }.bind(this),
+      500
+    );
     this.lastCurrent = 1;
     this.lastTotal = 1;
   }
   currentProgress() {
     if (this.controlElement) {
-      var current = this.controlElement.getAttribute("aria-posinset")
-      var total = this.controlElement.getAttribute("aria-setsize")
+      var current = this.controlElement.getAttribute("aria-posinset");
+      var total = this.controlElement.getAttribute("aria-setsize");
       this.lastCurrent = current;
       this.lastTotal = total;
       return [current, total];
@@ -181,9 +187,9 @@ class GoogleSlide extends Slide {
 }
 
 class IndicationController {
-  constructor () {
+  constructor() {
     chrome.runtime.onMessage.addListener(this.onMessage.bind(this));
-    switch(window.location.hostname) {
+    switch (window.location.hostname) {
       case "qiita.com":
         this.slide = new QiitaSlide();
         break;
@@ -194,7 +200,7 @@ class IndicationController {
   }
 
   onMessage(request, sender, sendResponse) {
-    switch(request.command) {
+    switch (request.command) {
       case "start":
         this.slide.start(request.allottedTime);
         break;
