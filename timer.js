@@ -43,7 +43,7 @@ class TimeIndicator extends Indicator {
     var div = super.createElement();
     div.style.backgroundImage =
       "url(" + chrome.runtime.getURL("images/buri50x80.png") + ")";
-    div.style.opacity = "0.5";
+    div.style.opacity = "0.6";
     return div;
   }
   timerHandler() {
@@ -72,7 +72,7 @@ class ProgressIndicator extends Indicator {
     var div = super.createElement();
     div.style.backgroundImage =
       "url(" + chrome.runtime.getURL("images/mure50x80.png") + ")";
-    div.style.opacity = "0.5";
+    div.style.opacity = "0.6";
     return div;
   }
   timerHandler() {
