@@ -43,7 +43,7 @@ class PopupController {
 
   getStatus() {
     this.sendMessage({"command": "status"}, function(response) {
-      if (!response.allottedTime)
+      if (!response || !response.allottedTime)
         return;
       this.allottedTime = response.allottedTime;
       this.paused = response.paused;
