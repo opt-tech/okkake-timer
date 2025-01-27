@@ -5,6 +5,10 @@
   "permissions": [
     "declarativeContent"
   ],
+  "host_permissions": [
+    "*://qiita.com/*",
+    "*://docs.google.com/presentation/*"
+  ],
   "default_locale": "en",
   "icons": { "128": "images/cat2x.png" },
   "background": {
@@ -12,7 +16,7 @@
   },
   "action": {
       "default_title": "__MSG_title__",
-      "default_icon": "images/cat.png",
+      "default_icon": "images/cat-gray.png",
       "default_popup": "popup.html"
   },
   "content_scripts": [
