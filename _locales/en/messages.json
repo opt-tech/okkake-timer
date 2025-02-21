@@ -4,7 +4,7 @@
     "description": "The name of this extension"
   },
   "description" : {
-    "message": "Shows a presentation pace-keeping timer on the Qiita slides",
+    "message": "Shows a presentation pace-keeping timer on Google and Qiita slides",
     "description": "The description of this extension"
   }
 }

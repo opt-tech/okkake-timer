@@ -4,8 +4,8 @@ This chrome extension helps your presentation end in perfect time.
 This software is inspired by [Rabbit](https://github.com/rabbit-shocker/rabbit).
 
 ## Supports
-- [Qiita(slide mode)](https://qiita.com/Qiita/items/4ff5873776992f0511d6)
 - [Google Slides(fullscreen mode)](https://www.google.com/intl/en_US/slides/about/)
+- [Qiita(slide mode)](https://qiita.com/Qiita/items/4ff5873776992f0511d6)
 
 ## Installing from the Web Store
 Navigate to [here](https://chrome.google.com/webstore/detail/presentation-pacemaker/aeejfbfmmahlmbgllbdobndmjhkgkgpb) and select `ADD TO CHROME`
